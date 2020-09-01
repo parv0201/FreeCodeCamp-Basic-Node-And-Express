@@ -1,4 +1,5 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 require('dotenv').config();
 var app = express();
 
@@ -10,7 +11,9 @@ app.use('/', (req, res, next) => {
 
 
 // --> 11)  Mount the body-parser middleware  here
-
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 
 /** 1) Meet the node console. */
 console.log("Hello World");
@@ -71,6 +74,13 @@ app.get('/:word/echo', (req, res) => {
 
 /** 10) Get input from client - Query parameters */
 // /name?first=<firstname>&last=<lastname>
+app.route('/name')
+    .get((req, res) => {
+        let name = {
+            "name": req.query.first + " " + req.query.last
+        }
+        res.json(name);
+    });
 
   
 /** 11) Get ready for POST Requests - the `body-parser` */
