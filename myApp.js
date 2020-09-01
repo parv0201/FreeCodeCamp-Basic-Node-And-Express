@@ -80,6 +80,12 @@ app.route('/name')
             "name": req.query.first + " " + req.query.last
         }
         res.json(name);
+    })
+    .post((req, res) => {
+        let name = {
+            "name": req.body.first + " " + req.body.last
+        }
+        res.json(name);
     });
 
   
