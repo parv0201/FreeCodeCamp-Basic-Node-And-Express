@@ -3,6 +3,10 @@ require('dotenv').config();
 var app = express();
 
 // --> 7)  Mount the Logger middleware here
+app.use('/', (req, res, next) => {
+    console.log(req.method + " " + req.path + " - " + req.ip);
+    next();
+})
 
 
 // --> 11)  Mount the body-parser middleware  here
@@ -48,9 +52,21 @@ app.get('/json', (req,res) => {
 
 
 /** 8) Chaining middleware. A Time server */
+app.get('/now', (req, res, next) => {
+    req.time = new Date().toString();
+    next();
+}, (req, res) => {
+    res.json({"time": req.time});
+});
 
 
 /** 9)  Get input from client - Route parameters */
+app.get('/:word/echo', (req, res) => {
+    let wordObject = {
+        "echo": req.params.word
+    };
+    res.json(wordObject);
+});
 
 
 /** 10) Get input from client - Query parameters */
